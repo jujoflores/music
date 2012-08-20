@@ -18,12 +18,15 @@ class Resources_Url_Builder{
 	}
 	
 	public function getParameter($name){
-		$parameters = explode('&', $this->url);
+		list($url, $query) = explode('?', $this->url);
+		$parameters = explode('&', $query);
 		if(count($parameters)){
 			foreach($parameters as $parameter){
-				list($variable, $value) = explode('=', $parameter);
-				if($variable == $name){
-					return rawurldecode($value);
+				if($parameter){
+					list($variable, $value) = explode('=', $parameter);
+					if($variable == $name){
+						return rawurldecode($value);
+					}
 				}
 			}
 		}

@@ -20,7 +20,7 @@ class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Arti
 		$artist = new Application_Model_Artist();
     	$artist->setName($jsonArtist['name']);
     	$artist->setBiography($jsonArtist['bio']['content']);
-		if(count($jsonArtist['image'])){
+		if(isset($jsonArtist['image'])){
 	    	foreach($jsonArtist['image'] as $image){
 	    		$artist->setImage($image['size'], $image['#text']);
 			}
@@ -43,7 +43,7 @@ class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Arti
     		$album->setPosition(++$position);
     		$album->setName($jsonArtistTopAlbums['name']);
     		$album->setPlaycount($jsonArtistTopAlbums['playcount']);
-			if(count($jsonArtistTopAlbums['image'])){
+			if(isset($jsonArtistTopAlbums['image'])){
 		    	foreach($jsonArtistTopAlbums['image'] as $image){
 		    		$album->setImage($image['size'], $image['#text']);
 				}
@@ -73,7 +73,8 @@ class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Arti
     		$song->setPosition(++$position);
     		$song->setName($jsonArtistTopSongs['name']);
     		$song->setListeners($jsonArtistTopSongs['listeners']);
-			if(count($jsonArtistTopSongs['image'])){
+
+			if(isset($jsonArtistTopSongs['image'])){
 		    	foreach($jsonArtistTopSongs['image'] as $image){
 		    		$song->setImage($image['size'], $image['#text']);
 				}
@@ -103,7 +104,7 @@ class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Arti
     		$artist->setName($jsonArtist['name']);
     		$artist->setPosition(++$position);
     		$artist->setListeners($jsonArtist['listeners']);
-			if(count($jsonArtist['image'])){
+			if(isset($jsonArtist['image'])){
 		    	foreach($jsonArtist['image'] as $image){
 		    		$artist->setImage($image['size'], $image['#text']);
 				}
@@ -132,7 +133,7 @@ class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Arti
     		$song->setArtist($artist);
     		$song->setPosition(++$position);
     		$song->setListeners($jsonSong['listeners']);
-			if(count($jsonSong['image'])){
+			if(isset($jsonSong['image'])){
 		    	foreach($jsonSong['image'] as $image){
 		    		$song->setImage($image['size'], $image['#text']);
 				}
