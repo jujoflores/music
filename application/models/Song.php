@@ -1,5 +1,6 @@
 <?php
 class Application_Model_Song {
+	
 	private $position;
 	private $name;
 	private $artist;

@@ -1,10 +1,10 @@
 <?php
 class Application_Model_Artist {
+	
 	private $position;
 	private $name;
 	private $listeners;
 	private $biography;
-	private $dataSource;
 	private $image = array();
 	
 	function __construct(){
@@ -48,21 +48,5 @@ class Application_Model_Artist {
 	
 	public function setImage($size, $image){
 		$this->image[$size] = $image;
-	}
-	
-	public function setDataSource(Webservices_Adapter_Artist $adapter){
-		$this->dataSource = $adapter;
-	}
-	
-	public function getInformation(){
-		return $this->dataSource->getInformation($this->name);
-	}
-	
-	public function getTopAlbums(){
-		return $this->dataSource->getTopAlbums($this->name);
-	}
-	
-	public function getArtistTopSongs(){
-		return $this->dataSource->getArtistTopSongs($this->name);
-	}
+	}	
 }

@@ -16,14 +16,16 @@ class ArtistController extends Zend_Controller_Action
     public function infoAction(){
     	$request = $this->getRequest();
     	$name = $request->getParam('name');
-    	
+
         $artist = new Application_Model_Artist();
         $artist->setName($name);
-        $artist->setDataSource(
-        	new Webservices_Lastfm($this->webserviceConfig->lastfm));
 
-    	$this->view->artist = $artist->getInformation();
-    	$this->view->topAlbums = $artist->getTopAlbums();
-    	$this->view->topSongs = $artist->getArtistTopSongs();
+    	$repository = new Application_Model_Repository_Artists();
+        $repository->setDataSource(
+        	new Webservices_LastFM($this->webserviceConfig->lastfm));
+
+    	$this->view->artist = $repository->getArtistInformation($artist);
+    	$this->view->topAlbums = $repository->getArtistTopAlbums($artist);
+    	$this->view->topSongs = $repository->getArtistTopSongs($artist);
     }
 }

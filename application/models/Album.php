@@ -1,5 +1,6 @@
 <?php
 class Application_Model_Album {
+	
 	private $position;
 	private $name;
 	private $artist;

@@ -1,27 +1,22 @@
 <?php
-class Webservices_Lastfm implements Webservices_Adapter_Artist, Webservices_Adapter_Chart{
+class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adapter_Chart{
 	
 	private $config;
-	private $url;
 	
 	public function __construct($config){
 		$this->config = $config;
-		$this->url = new Music_UrlGenerator($this->config->get('url'));
-		$this->url
-			->format($this->config->get('format'))
-			->api_key($this->config->get('apiKey'))
-			->save();
 	}
 	
 	public function getInformation($artistName){
-		$jsonArtist = $this->url
-			->restart()
+		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl->getBuilder()->format($this->config->get('format'))
+			->api_key($this->config->get('apiKey')) 
 			->method('artist.getInfo')
-			->artist($artistName)
-			->execute();
+			->artist($artistName);
+		$jsonArtist = $curl->execute();
 
 		$jsonArtist = $jsonArtist['artist'];
-		 
+
 		$artist = new Application_Model_Artist();
     	$artist->setName($jsonArtist['name']);
     	$artist->setBiography($jsonArtist['bio']['content']);
@@ -31,13 +26,14 @@ class Webservices_Lastfm implements Webservices_Adapter_Artist, Webservices_Adap
 	}
 	
 	public function getTopAlbums($artistName){
-		$jsonArtistTopAlbums = $this->url
-			->restart()
+		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl->getBuilder()->format($this->config->get('format'))
+			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopAlbums')
 			->artist($artistName)
-			->limit($this->config->get('limitArtistTopAlbums'))
-			->execute(); 
-		
+			->limit($this->config->get('limitArtistTopAlbums'));
+		$jsonArtistTopAlbums = $curl->execute();
+			
     	foreach($jsonArtistTopAlbums['topalbums']['album'] as $position => $jsonArtistTopAlbums){
     		$album = new Application_Model_Album();
     		$album->setPosition(++$position);
@@ -56,13 +52,14 @@ class Webservices_Lastfm implements Webservices_Adapter_Artist, Webservices_Adap
 	}
 	
 	public function getArtistTopSongs($artistName){
-		$jsonArtistTopSongs = $this->url
-			->restart()
+		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl->getBuilder()->format($this->config->get('format'))
+			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopTracks')
 			->artist($artistName)
-			->limit($this->config->get('limitArtistTopSongs'))
-			->execute(); 
-		
+			->limit($this->config->get('limitArtistTopSongs')); 
+		$jsonArtistTopSongs = $curl->execute();
+			
     	foreach($jsonArtistTopSongs['toptracks']['track'] as $position => $jsonArtistTopSongs){
     		$song = new Application_Model_Song();
     		$song->setPosition(++$position);
@@ -82,12 +79,13 @@ class Webservices_Lastfm implements Webservices_Adapter_Artist, Webservices_Adap
 	
 	public function getTopArtists(){
     	$topArtists = array();
-		$jsonArtists = $this->url
-			->restart()
+		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl->getBuilder()->format($this->config->get('format'))
+			->api_key($this->config->get('apiKey')) 
 			->method('chart.getTopArtists')
-			->limit($this->config->get('limitTopArtists'))
-			->execute(); 
-		
+			->limit($this->config->get('limitTopArtists')); 
+    	$jsonArtists = $curl->execute();
+			
     	foreach($jsonArtists['artists']['artist'] as $position => $jsonArtist){
     		$artist = new Application_Model_Artist();
     		$artist->setName($jsonArtist['name']);
@@ -103,12 +101,13 @@ class Webservices_Lastfm implements Webservices_Adapter_Artist, Webservices_Adap
 	
 	public function getTopSongs(){
     	$topSongs = array();
-    	$jsonSongs = $this->url
-			->restart()
+		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl->getBuilder()->format($this->config->get('format'))
+			->api_key($this->config->get('apiKey')) 
     		->method('chart.getTopTracks')
-			->limit($this->config->get('limitTopSongs'))
-			->execute();
-
+			->limit($this->config->get('limitTopSongs'));
+    	$jsonSongs = $curl->execute();
+			
     	foreach($jsonSongs['tracks']['track'] as $position => $jsonSong){
     		$song = new Application_Model_Song();
     		$song->setName($jsonSong['name']);
