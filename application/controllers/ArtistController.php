@@ -6,19 +6,22 @@ class ArtistController extends Zend_Controller_Action
 	
     public function init()
     {
-    	$this->webserviceConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'webservices');
+    	$this->webserviceConfig = Zend_Registry::get('webserviceConfig');
     }
 
     public function indexAction()
     {
-        //$this->_redirect('Artist/info');
     }
     
     public function infoAction(){
     	$request = $this->getRequest();
     	$name = $request->getParam('name');
-        $webservice = new Webservices_Adapter_WebserviceAdapter(
-        	new Webservices_Audioscrobbler($this->webserviceConfig->audioscrobbler)); 
-    	$this->view->artist = $webservice->getArtistInformation($name);
+    	
+        $artist = new Webservices_Artist_Adapter(
+        	new Webservices_Artist_Lastfm($this->webserviceConfig->lastfm));
+
+    	$this->view->artist = $artist->getInformation($name);
+    	$this->view->topAlbums = $artist->getTopAlbums($name);
+    	$this->view->topSongs = $artist->getTopSongs($name);
     }
 }

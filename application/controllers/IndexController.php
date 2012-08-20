@@ -6,14 +6,17 @@ class IndexController extends Zend_Controller_Action
 	
     public function init()
     {
-    	$this->webserviceConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'webservices');
+    	$this->webserviceConfig = Zend_Registry::get('webserviceConfig');
     }
 
     public function indexAction()
     {
-        $webservice = new Webservices_Adapter_WebserviceAdapter(
-        	new Webservices_Audioscrobbler($this->webserviceConfig->audioscrobbler)); 
-        $this->view->topArtists = $webservice->getTopArtists();
-        $this->view->topSongs = $webservice->getTopSongs();
+        $artist = new Webservices_Artist_Adapter(
+        	new Webservices_Artist_Lastfm($this->webserviceConfig->lastfm));
+        $song = new Webservices_Song_Adapter(
+        	new Webservices_Song_Lastfm($this->webserviceConfig->lastfm));
+
+        $this->view->topArtists = $artist->getTop();
+        $this->view->topSongs = $song->getTop();
     }	
 }

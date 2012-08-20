@@ -5,7 +5,7 @@
 
 	<div class="panel-content">
 		<img alt=""
-			src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Jonbonjovi.jpg/800px-Jonbonjovi.jpg" />
+			src="<?php echo $this->artist->getImage('extralarge')?>" />
 		<h2>Bio</h2>
 		<p><?php echo nl2br($this->artist->getBiography())?></p>
 
@@ -15,90 +15,18 @@
 <div id="panel-artist-top-albums" class="panel">
 	<h1 class="center">Top Albums</h1>
 	<div class="panel-content">
-
-
 		<ul class="item-container">
-			<li class="item"><div class="item-index">1</div>
+		<?php foreach($this->topAlbums as $album){?>
+			<li class="item"><div class="item-index"><?php echo $album->getPosition()?></div>
 				<a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
+					src="<?php echo $album->getImage('small')?>" /></a>
 				<div class="item-desc">
-					<a href="#">Cross Road</a>
-					<div class="item-note">Playcount: 137820</div>
+					<a href="#"><?php echo $album->getName()?></a>
+					<div class="item-note">Playcount: <?php echo $album->getPlaycount()?></div>
 
-				</div></li>
-			<li class="item"><div class="item-index">2</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/70338588.jpg" /></a>
-				<div class="item-desc">
-					<a href="#">Crush</a>
-					<div class="item-note">Playcount: 206751</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">3</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/54857355.png" /></a>
-				<div class="item-desc">
-					<a href="#">Slippery When Wet</a>
-					<div class="item-note">Playcount: 180086</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">4</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/51463519.png" /></a>
-				<div class="item-desc">
-					<a href="#">Have A Nice Day</a>
-					<div class="item-note">Playcount: 137820</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">5</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164943.png" /></a>
-				<div class="item-desc">
-					<a href="#">Bounce</a>
-					<div class="item-note">Playcount: 119395</div>
-
-				</div></li>
-
-
-			<li class="item"><div class="item-index">6</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/65756804.png" /></a>
-				<div class="item-desc">
-					<a href="#">New Jersey</a>
-					<div class="item-note">Playcount: 93684</div> 
-
-				</div></li>
-
-			<li class="item"><div class="item-index">7</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164693.png" /></a>
-				<div class="item-desc">
-					<a href="#">These Days</a>
-					<div class="item-note">Playcount: 95926</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">8</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164525.png" /></a>
-				<div class="item-desc">
-					<a href="#">Keep The Faith</a>
-					<div class="item-note">Playcount: 88432</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">9</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/66885880.jpg" /></a>
-				<div class="item-desc">
-					<a href="#">Bon Jovi</a>
-					<div class="item-note">Playcount: 76054</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">10</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/54857317.png" /></a>
-				<div class="item-desc">
-					<a href="#">The Circle</a>
-					<div class="item-note">Playcount: 87718</div>
-
-				</div></li>
-
+				</div>
+			</li>
+		<?php }?>
 		</ul>
 	</div>
 </div>
@@ -107,87 +35,17 @@
 	<h1 class="center">Top Songs</h1>
 	<div class="panel-content">
 		<ul class="item-container">
-			<li class="item"><div class="item-index">1</div>
+		<?php foreach($this->topSongs as $song){?>
+			<li class="item"><div class="item-index"><?php echo $song->getPosition()?></div>
 				<a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
+					src="<?php echo $song->getImage('small')?>" /></a>
 				<div class="item-desc">
-					<a href="#">Livin' On A Prayer</a>
-					<div class="item-note">Listeners: 73078</div>
+					<a href="#"><?php echo $song->getName()?></a>
+					<div class="item-note">Listeners: <?php echo $song->getListeners()?></div>
 
-				</div></li>
-			<li class="item"><div class="item-index">2</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">You Give Love A Bad Name</a>
-					<div class="item-note">Listeners: 65096</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">3</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/70338588.jpg" /></a>
-				<div class="item-desc">
-					<a href="#">It's My Life</a>
-					<div class="item-note">Listeners: 63079</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">4</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">Wanted Dead Or Alive</a>
-					<div class="item-note">Listeners: 42297</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">5</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">Always</a>
-					<div class="item-note">Listeners: 38844</div>
-
-				</div></li>
-
-
-			<li class="item"><div class="item-index">6</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">Bed Of Roses</a>
-					<div class="item-note">Listeners: 27654</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">7</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/51463519.png" /></a>
-				<div class="item-desc">
-					<a href="#">Have A Nice Day</a>
-					<div class="item-note">Listeners: 27497</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">8</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">Runaway</a>
-					<div class="item-note">Listeners: 25473</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">9</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">Bad Medicine</a>
-					<div class="item-note">Listeners: 24397</div>
-
-				</div></li>
-
-			<li class="item"><div class="item-index">10</div><a href="#"><img alt=""
-					src="http://userserve-ak.last.fm/serve/126/52164277.png" /></a>
-				<div class="item-desc">
-					<a href="#">I'll Be There For You</a>
-					<div class="item-note">Listeners: 23122</div>
-
-				</div></li>
-
+				</div>
+			</li>
+		<?php }?>
 		</ul>
 	</div>
 </div>
