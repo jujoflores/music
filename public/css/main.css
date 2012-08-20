@@ -1,0 +1,106 @@
+html{ overflow: auto;}
+
+body{
+     margin: 0px;
+     padding: 0px;
+     font-family: arial, sans-serif;
+}
+
+img{border:0px;}
+
+h1,h2,h3{
+	color: #679000;
+	font-family: Helvetica, 'HelveticaRounded Bold', Arial, sans-serif;
+	text-shadow: #E0E0E0 2px 2px 1px;
+}
+
+div#content-container{
+	width: 900px;
+}
+
+div#nav-container{
+	width: 500px;
+	margin: 0 auto;
+}
+
+div#page-wrap{
+	width: 900px;
+	min-height: 800px;
+	margin: 0 auto;
+	background: url(../images/wrap.jpg) repeat-y;
+	padding: 10px 60px 10px 60px;
+}
+
+
+hr.ns-divisor{
+	border-color:#e44d23;
+	border-style: solid; 
+	margin: 0 auto;
+	width: 900px;
+	margin-right: 20px;
+}
+
+div#nav-container{
+	height: 10px;
+}
+
+ul#nav{
+	list-style: none;
+	display: inline;
+}
+
+ul#nav li{
+	text-align: center;
+}
+
+ul#nav li a{
+	color:#e44d23;
+	text-decoration: none;
+}
+
+ul#nav li a:hover{
+	color:#616A74;
+	text-decoration: underline;
+}
+
+.center{
+	text-align: center;
+}
+
+.copyright{
+	color: #616A74;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	height: 40px;
+	margin: 9px auto 300px;
+	text-align: center;
+}
+
+.clear { clear: both; }
+
+
+.panel{
+	display: inline;
+	float: left;
+	position: relative;
+	margin:4px;
+}
+.panel h1{font-size:16px;text-align:left;padding-left:0px;border-bottom:4px solid #F39C83;}
+.panel-content{
+	margin:2px 4px 2px 4px;
+}
+
+.panel-content ul.item-container{list-style:none;float:left;width:100%; padding: 0; margin: 0;   }
+.panel-content li.item{border-bottom:1px dotted #aaa;padding:4px 0px 0px 0px;clear:left;float:left;width:100%;margin-top:6px;padding-bottom:6px;}
+.panel-content li.item img{float:left;margin-right:10px;width:60px;height:60px;}
+
+.panel-content .item-index {float:left;width:40px;margin-right:5px;font-size:35px;color: #679000;}
+.panel-content p{}
+
+#panel-artist{}
+#panel-artist img{float:left;margin-right:10px;width:300px;}
+#panel-artist-top-albums{width:440px;}
+#panel-artist-top-songs{width:440px;}
+#panel-main-top-artists{width:440px;}
+#panel-main-top-songs{width:440px;}
+
