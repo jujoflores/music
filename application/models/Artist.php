@@ -49,4 +49,8 @@ class Application_Model_Artist {
 	public function setImage($size, $image){
 		$this->image[$size] = $image;
 	}	
+
+	public function hasImageSize($size){
+		return isset($this->image[$size]);
+	}
 }

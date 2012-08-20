@@ -7,7 +7,8 @@
         <ul class="item-container">
         <?php foreach($this->topArtists as $artist){?>
         <li class="item"><div class="item-index"><?php echo $artist->getPosition()?></div>
-            <a href="#"><img alt="" src="<?php echo $artist->getImage('small')?>" /></a>
+            <a href="#"><img alt="" src="<?php echo $artist->hasImageSize('small') ? 
+            	$artist->getImage('small') : $this->baseUrl() . Zend_Registry::get('defaultImages')->artist->small?>" /></a>
             <div class="item-desc">
                 <a href="<?php echo $this->url(array('controller' => 'artist', 'action' => 'info', 'name' => $artist->getName()))?>"><?php echo $artist->getName()?></a>
                 <div class="item-note">Listeners: <?php echo $artist->getListeners()?></div>
@@ -25,7 +26,8 @@
         <?php foreach($this->topSongs as $song){?>
             <li class="item"><div class="item-index"><?php echo $song->getPosition()?></div>
                 <a href="#"><img alt=""
-                    src="<?php echo $song->getImage('small')?>" /></a>
+                    src="<?php echo $song->hasImageSize('small') ? 
+                    	$song->getImage('small') : $this->baseUrl() . Zend_Registry::get('defaultImages')->song->small?>" /></a>
                 <div class="item-desc">
                     <a href="#"><?php echo $song->getName()?></a>
                     <div class="item-note">Artist: <?php echo $song->getArtist()->getName()?></div>
