@@ -11,12 +11,11 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $artist = new Webservices_Artist_Adapter(
-        	new Webservices_Artist_Lastfm($this->webserviceConfig->lastfm));
-        $song = new Webservices_Song_Adapter(
-        	new Webservices_Song_Lastfm($this->webserviceConfig->lastfm));
+        $chart = new Application_Model_Chart();
+        $chart->setDataSource(
+        	new Webservices_Lastfm($this->webserviceConfig->lastfm));
 
-        $this->view->topArtists = $artist->getTop();
-        $this->view->topSongs = $song->getTop();
-    }	
+        $this->view->topArtists = $chart->getTopArtists();
+        $this->view->topSongs = $chart->getTopSongs();
+    }
 }

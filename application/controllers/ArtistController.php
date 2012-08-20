@@ -17,11 +17,13 @@ class ArtistController extends Zend_Controller_Action
     	$request = $this->getRequest();
     	$name = $request->getParam('name');
     	
-        $artist = new Webservices_Artist_Adapter(
-        	new Webservices_Artist_Lastfm($this->webserviceConfig->lastfm));
+        $artist = new Application_Model_Artist();
+        $artist->setName($name);
+        $artist->setDataSource(
+        	new Webservices_Lastfm($this->webserviceConfig->lastfm));
 
-    	$this->view->artist = $artist->getInformation($name);
-    	$this->view->topAlbums = $artist->getTopAlbums($name);
-    	$this->view->topSongs = $artist->getTopSongs($name);
+    	$this->view->artist = $artist->getInformation();
+    	$this->view->topAlbums = $artist->getTopAlbums();
+    	$this->view->topSongs = $artist->getArtistTopSongs();
     }
 }

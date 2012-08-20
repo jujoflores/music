@@ -24,7 +24,7 @@ class Music_UrlGenerator{
 			foreach($parameters as $parameter){
 				list($variable, $value) = explode('=', $parameter);
 				if($variable == $name){
-					return $value;
+					return rawurldecode($value);
 				}
 			}
 		}
@@ -42,7 +42,7 @@ class Music_UrlGenerator{
 		if(!$this->validateProtocol($url)){
 			$this->url = 'http://';
 		}
-			$this->url .= $url;
+		$this->url .= $url;
 
 		if(!$this->hasQuestionMark()){
 			$this->url .= '?';
@@ -72,7 +72,6 @@ class Music_UrlGenerator{
 		curl_setopt($curlHandler, CURLOPT_URL, $this->url); 
 		curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, true); 
 		$response = curl_exec($curlHandler);
-		
 		return $this->formatResponse($response);		
 	}
 }
