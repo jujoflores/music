@@ -2,18 +2,18 @@
 
 class IndexController extends Zend_Controller_Action
 {
-
+	private $webserviceConfig;
+	
     public function init()
     {
-        /* Initialize action controller here */
+    	$this->webserviceConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'webservices');
     }
 
     public function indexAction()
     {
-        //$this->_redirect('Artist/info');
-        $webservicesAudioScrobbler = new Application_Model_WebservicesAudioscrobbler(); 
-        $this->view->topArtists = $webservicesAudioScrobbler->getTopArtists();
-        $this->view->topSongs = $webservicesAudioScrobbler->getTopSongs();
+        $webservice = new Webservices_Adapter_WebserviceAdapter(
+        	new Webservices_Audioscrobbler($this->webserviceConfig->audioscrobbler)); 
+        $this->view->topArtists = $webservice->getTopArtists();
+        $this->view->topSongs = $webservice->getTopSongs();
     }	
 }
-

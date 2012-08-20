@@ -1,34 +1,17 @@
 <?php
-define(WEBSERVICE_AUDIOSCROBBLER_URL, 'http://ws.audioscrobbler.com/2.0/?');
-define(WEBSERVICE_FORMAT, 'json');
-define(WEBSERVICE_API_KEY, 'b25b959554ed76058ac220b7b2e0a026');
-define(LIMIT_TOP_ARTISTS, 10);
-define(LIMIT_TOP_SONGS, 10);
-
-class Application_Model_WebservicesAudioscrobbler {
+class Webservices_Audioscrobbler implements Webservices_Adapter_WebserviceInterface{
 	
-	private $webserviceUrl;
+	private $config;
 	
-	public function __construct(){
-		 $this->webserviceUrl =  WEBSERVICE_AUDIOSCROBBLER_URL . 'format=' . WEBSERVICE_FORMAT . '&api_key=' . WEBSERVICE_API_KEY;
+	public function __construct($config){
+		$this->config = $config;
 	}
 	
-	private function formatWebserviceResponse($webserviceResponse){
-		if(WEBSERVICE_FORMAT == 'json'){
-			return json_decode($webserviceResponse, true);	
-		}else{
-			return $webserviceResponse;
-		}
-	}
-	
-	private function consumeWebservice($method, $parameters = ''){
-		$url = $this->webserviceUrl . '&method=' . $method . $parameters;
-		$curlHandler = curl_init(); 
-		curl_setopt($curlHandler, CURLOPT_URL, $url); 
-		curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, true); 
-		$webserviceResponse = curl_exec($curlHandler);
-		
-		return $this->formatWebserviceResponse($webserviceResponse);		
+	private function createWebserviceUrl($method, $parameters){
+		return $this->config->get('url') 
+			. 'format=' . $this->config->get('format') 
+			. '&api_key=' . $this->config->get('apiKey')
+			. '&method=' . $method . $parameters;
 	}
 	
 	private function setImages($object, $images){
@@ -41,7 +24,8 @@ class Application_Model_WebservicesAudioscrobbler {
 	
 	public function getTopArtists(){
     	$topArtists = array();
-		$jsonArtists = $this->consumeWebservice('chart.gettopartists', '&limit=' . LIMIT_TOP_ARTISTS);
+    	$urlTopArtists = $this->createWebserviceUrl('chart.gettopartists', "&limit={$this->config->get('limitTopArtists')}");
+		$jsonArtists = Music_GetUrl::curl($urlTopArtists, $this->config->get('format'));
 		
     	foreach($jsonArtists['artists']['artist'] as $position => $jsonArtist){
     		$artist = new Application_Model_Artist();
@@ -58,7 +42,8 @@ class Application_Model_WebservicesAudioscrobbler {
 	
 	public function getTopSongs(){
     	$topSongs = array();
-		$jsonSongs = $this->consumeWebservice('chart.gettoptracks', '&limit=' . LIMIT_TOP_SONGS);
+    	$urlTopSongs = $this->createWebserviceUrl('chart.gettoptracks', "&limit={$this->config->get('limitTopSongs')}");
+    	$jsonSongs = Music_GetUrl::curl($urlTopSongs, $this->config->get('format'));
 		
     	foreach($jsonSongs['tracks']['track'] as $position => $jsonSong){
     		$song = new Application_Model_Song();
@@ -77,7 +62,8 @@ class Application_Model_WebservicesAudioscrobbler {
 	}
 
 	public function getArtistInformation($artistName){
-		$jsonArtist = $this->consumeWebservice('artist.getinfo', '&artist=' . urlencode($artistName));
+		$urlArtist = $this->createWebserviceUrl('artist.getinfo', '&artist=' . urlencode($artistName));
+		$jsonArtist = Music_GetUrl::curl($urlArtist, $this->config->get('format'));
 		$jsonArtist = $jsonArtist['artist']; 
 		$artist = new Application_Model_Artist();
     	$artist->setName($jsonArtist['name']);
