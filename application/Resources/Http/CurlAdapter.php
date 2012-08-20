@@ -1,5 +1,5 @@
 <?php
-class Music_Url_Curl extends Zend_Http_Client{ 
+class Resources_Http_CurlAdapter extends Zend_Http_Client{ 
 
 	private $builder;
 	

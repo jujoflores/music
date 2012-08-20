@@ -1,5 +1,5 @@
 <?php
-class Music_Url_Builder{
+class Resources_Url_Builder{
 	
 	private $url;
 	

@@ -9,7 +9,7 @@
         <li class="item"><div class="item-index"><?php echo $artist->getPosition()?></div>
             <a href="#"><img alt="" src="<?php echo $artist->getImage('small')?>" /></a>
             <div class="item-desc">
-                <a href="<?php echo Zend_Controller_Front::getInstance()->getBaseUrl();?>/artist/info/name/<?php echo urlencode($artist->getName())?>"><?php echo $artist->getName()?></a>
+                <a href="<?php echo $this->url(array('controller' => 'artist', 'action' => 'info', 'name' => $artist->getName()))?>"><?php echo $artist->getName()?></a>
                 <div class="item-note">Listeners: <?php echo $artist->getListeners()?></div>
             </div>
         </li>

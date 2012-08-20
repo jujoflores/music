@@ -1,5 +1,5 @@
 <?php
-class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adapter_Chart{
+class Resources_Webservices_LastFM implements Resources_Webservices_Adapter_Artist, Resources_Webservices_Adapter_Chart{
 	
 	private $config;
 	
@@ -7,8 +7,8 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
 		$this->config = $config;
 	}
 	
-	public function getInformation($artistName){
-		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+	public function getInformationByArtist($artistName){
+		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getInfo')
@@ -20,13 +20,17 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
 		$artist = new Application_Model_Artist();
     	$artist->setName($jsonArtist['name']);
     	$artist->setBiography($jsonArtist['bio']['content']);
-    	Music_Images::set($artist, $jsonArtist['image']);
-    	    	
+		if(count($jsonArtist['image'])){
+	    	foreach($jsonArtist['image'] as $image){
+	    		$artist->setImage($image['size'], $image['#text']);
+			}
+		}
+
         return $artist;
 	}
-	
-	public function getTopAlbums($artistName){
-		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+
+	public function getTopAlbumsByArtist($artistName){
+		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopAlbums')
@@ -39,38 +43,46 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
     		$album->setPosition(++$position);
     		$album->setName($jsonArtistTopAlbums['name']);
     		$album->setPlaycount($jsonArtistTopAlbums['playcount']);
-    		Music_Images::set($album, $jsonArtistTopAlbums['image']);
-    		
+			if(count($jsonArtistTopAlbums['image'])){
+		    	foreach($jsonArtistTopAlbums['image'] as $image){
+		    		$album->setImage($image['size'], $image['#text']);
+				}
+			}
+
 			$artist = new Application_Model_Artist();
     		$artist->setName($jsonArtistTopAlbums['artist']['name']);
     		$album->setArtist($artist);
-    		
+
     		$topAlbums[] = $album;    		 
     	}
     	
         return $topAlbums;
 	}
 	
-	public function getArtistTopSongs($artistName){
-		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+	public function getTopSongsByArtist($artistName){
+		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopTracks')
 			->artist($artistName)
 			->limit($this->config->get('limitArtistTopSongs')); 
 		$jsonArtistTopSongs = $curl->execute();
-			
+
     	foreach($jsonArtistTopSongs['toptracks']['track'] as $position => $jsonArtistTopSongs){
     		$song = new Application_Model_Song();
     		$song->setPosition(++$position);
     		$song->setName($jsonArtistTopSongs['name']);
     		$song->setListeners($jsonArtistTopSongs['listeners']);
-    		Music_Images::set($song, $jsonArtistTopSongs['image']);
-    		
+			if(count($jsonArtistTopSongs['image'])){
+		    	foreach($jsonArtistTopSongs['image'] as $image){
+		    		$song->setImage($image['size'], $image['#text']);
+				}
+			}
+
     		$artist = new Application_Model_Artist();
     		$artist->setName($jsonArtistTopSongs['artist']['name']);
     		$song->setArtist($artist);
-    		
+
     		$topSongs[] = $song;    		 
     	}
     	
@@ -79,7 +91,7 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
 	
 	public function getTopArtists(){
     	$topArtists = array();
-		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('chart.getTopArtists')
@@ -91,23 +103,27 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
     		$artist->setName($jsonArtist['name']);
     		$artist->setPosition(++$position);
     		$artist->setListeners($jsonArtist['listeners']);
-    		Music_Images::set($artist, $jsonArtist['image']);
-    		
+			if(count($jsonArtist['image'])){
+		    	foreach($jsonArtist['image'] as $image){
+		    		$artist->setImage($image['size'], $image['#text']);
+				}
+			}
+
     		$topArtists[] = $artist;    		 
     	}
-    	
+
         return $topArtists;
 	}
-	
+
 	public function getTopSongs(){
     	$topSongs = array();
-		$curl = new Music_Url_Curl(new Music_Url_Builder($this->config->get('url')));
+		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
     		->method('chart.getTopTracks')
 			->limit($this->config->get('limitTopSongs'));
     	$jsonSongs = $curl->execute();
-			
+
     	foreach($jsonSongs['tracks']['track'] as $position => $jsonSong){
     		$song = new Application_Model_Song();
     		$song->setName($jsonSong['name']);
@@ -116,11 +132,15 @@ class Webservices_LastFM implements Webservices_Adapter_Artist, Webservices_Adap
     		$song->setArtist($artist);
     		$song->setPosition(++$position);
     		$song->setListeners($jsonSong['listeners']);
-    		Music_Images::set($song, $jsonSong['image']);
-    		
+			if(count($jsonSong['image'])){
+		    	foreach($jsonSong['image'] as $image){
+		    		$song->setImage($image['size'], $image['#text']);
+				}
+			}
+
     		$topSongs[] = $song;    		 
     	}
-    	
+
         return $topSongs;
 	}
 }

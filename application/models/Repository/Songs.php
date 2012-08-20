@@ -6,7 +6,7 @@ class Application_Model_Repository_Songs {
 	function __construct(){
 	}
 	
-	public function setDataSource(Webservices_Adapter_Chart $adapter){
+	public function setDataSource(Resources_Webservices_Adapter_Chart $adapter){
 		$this->dataSource = $adapter;
 	}
 	

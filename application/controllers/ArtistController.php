@@ -22,10 +22,10 @@ class ArtistController extends Zend_Controller_Action
 
     	$repository = new Application_Model_Repository_Artists();
         $repository->setDataSource(
-        	new Webservices_LastFM($this->webserviceConfig->lastfm));
+        	new Resources_Webservices_LastFM($this->webserviceConfig->lastfm));
 
-    	$this->view->artist = $repository->getArtistInformation($artist);
-    	$this->view->topAlbums = $repository->getArtistTopAlbums($artist);
-    	$this->view->topSongs = $repository->getArtistTopSongs($artist);
+    	$this->view->artist = $repository->getInformationByArtist($artist);
+    	$this->view->topAlbums = $repository->getTopAlbumsByArtist($artist);
+    	$this->view->topSongs = $repository->getTopSongsByArtist($artist);
     }
 }
