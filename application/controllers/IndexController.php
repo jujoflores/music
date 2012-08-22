@@ -11,13 +11,16 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $artistRepository = new Application_Model_Repository_Artists();
-        $artistRepository->setDataSource(
-        	new Resources_Webservices_LastFM($this->webserviceConfig->lastfm));
+		$configlastFM = $this->webserviceConfig->lastfm->merge(Zend_Registry::get('defaultImages'));
+    	$configlastFM->setReadOnly();
 
-        $songRepository = new Application_Model_Repository_Songs();
+        $artistRepository = new Application_Model_Artist_Repository();
+        $artistRepository->setDataSource(
+        	new Resources_Webservices_LastFM($configlastFM));
+
+        $songRepository = new Application_Model_Song_Repository();
         $songRepository->setDataSource(
-        	new Resources_Webservices_LastFM($this->webserviceConfig->lastfm));
+        	new Resources_Webservices_LastFM($configlastFM));
 
         $this->view->topArtists = $artistRepository->getTopArtists();
         $this->view->topSongs = $songRepository->getTopSongs();

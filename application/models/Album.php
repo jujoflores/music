@@ -5,6 +5,7 @@ class Application_Model_Album {
 	private $name;
 	private $artist;
 	private $playcount;
+	private $defaultImage;
 	private $image = array();
 	
 	function __construct(){
@@ -24,6 +25,10 @@ class Application_Model_Album {
 	
 	public function getPlaycount(){
 		return $this->playcount;
+	}
+	
+	public function getDefaultImage(){
+		return $this->defaultImage;
 	}
 	
 	public function getImage($size){
@@ -46,11 +51,23 @@ class Application_Model_Album {
 		$this->playcount = $playcount;
 	}
 	
+	public function setDefaultImage($defaultImage){
+		$this->defaultImage = $defaultImage;
+	}
+	
 	public function setImage($size, $image){
 		$this->image[$size] = $image;
 	}
 
-	public function hasImageSize($size){
+	public function hasImage($size){
 		return isset($this->image[$size]);
+	}
+
+	public function showImage($size){
+		if($this->hasImage($size)){
+			return $this->getImage($size);
+		}
+		
+		return $this->getDefaultImage();
 	}
 }

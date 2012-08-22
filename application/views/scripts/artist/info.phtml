@@ -5,8 +5,7 @@
 
 	<div class="panel-content">
 		<img alt=""
-			src="<?php echo $this->artist->hasImageSize('extralarge') ? 
-				$this->artist->getImage('extralarge') : $this->baseUrl() . Zend_Registry::get('defaultImages')->artist->extraLarge?>" />
+			src="<?php echo $this->artist->showImage('extralarge')?>" />
 		<h2>Bio</h2>
 		<p><?php echo nl2br($this->artist->getBiography())?></p>
 
@@ -20,8 +19,7 @@
 		<?php foreach($this->topAlbums as $album){?>
 			<li class="item"><div class="item-index"><?php echo $album->getPosition()?></div>
 				<a href="#"><img alt=""
-					src="<?php echo $album->hasImageSize('small') ? 
-						$album->getImage('small') : $this->baseUrl() . Zend_Registry::get('defaultImages')->album->small?>" /></a>
+					src="<?php echo $album->showImage('small')?>" /></a>
 				<div class="item-desc">
 					<a href="#"><?php echo $album->getName()?></a>
 					<div class="item-note">Playcount: <?php echo $album->getPlaycount()?></div>
@@ -40,8 +38,7 @@
 		<?php foreach($this->topSongs as $song){?>
 			<li class="item"><div class="item-index"><?php echo $song->getPosition()?></div>
 				<a href="#"><img alt=""
-					src="<?php echo $song->hasImageSize('small') ? 
-						$song->getImage('small') : $this->baseUrl() . Zend_Registry::get('defaultImages')->song->small?>" /></a>
+					src="<?php echo $song->showImage('small')?>" /></a>
 				<div class="item-desc">
 					<a href="#"><?php echo $song->getName()?></a>
 					<div class="item-note">Listeners: <?php echo $song->getListeners()?></div>

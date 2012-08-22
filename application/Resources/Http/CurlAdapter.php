@@ -17,7 +17,7 @@ class Resources_Http_CurlAdapter extends Zend_Http_Client{
 		return $response;
 	}
 	
-	public function __construct($builder){
+	public function __construct(Resources_Url_Builder $builder){
 		$config = array(
 			'adapter' => 'Zend_Http_Client_Adapter_Curl',
     		'curloptions' => array(CURLOPT_RETURNTRANSFER => true));
