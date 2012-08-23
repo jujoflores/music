@@ -1,5 +1,7 @@
 <?php
-class Application_Model_Song {
+namespace Application\Model;
+
+class Song {
 	
 	private $position;
 	private $name;

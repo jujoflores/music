@@ -1,5 +1,7 @@
 <?php
-class Resources_Url_Builder{
+namespace Resources\Url;
+
+class Builder{
 	
 	private $url;
 	

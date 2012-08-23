@@ -1,5 +1,7 @@
 <?php
-class Application_Model_Album {
+namespace Application\Model;
+
+class Album {
 	
 	private $position;
 	private $name;

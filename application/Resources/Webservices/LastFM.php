@@ -1,16 +1,25 @@
 <?php
-class Resources_Webservices_LastFM implements Application_Model_Artist_Interface, Application_Model_Song_Interface {
+namespace Resources\Webservices;
+use Application\Model\Album;
+use Application\Model\Artist;
+use Application\Model\Artist\IArtist;
+use Application\Model\Song;
+use Application\Model\Song\ISong;
+use Resources\Http\CurlAdapter;
+use Resources\Url\Builder;
+
+class LastFM implements IArtist, ISong {
 
 	private $config;
 	private $baseUrl;
 	
 	public function __construct($config){
 		$this->config = $config;
-		$this->baseUrl = Zend_Layout::getMvcInstance()->getView()->baseUrl();
+		$this->baseUrl = \Zend_Layout::getMvcInstance()->getView()->baseUrl();
 	}
 	
-	public function getInformationByArtist(Application_Model_Artist $artist){
-		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
+	public function getInformationByArtist(Artist $artist){
+		$curl = new CurlAdapter(new Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getInfo')
@@ -29,8 +38,8 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
         return $artist;
 	}
 
-	public function getTopAlbumsByArtist(Application_Model_Artist $artist){
-		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
+	public function getTopAlbumsByArtist(Artist $artist){
+		$curl = new CurlAdapter(new Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopAlbums')
@@ -39,7 +48,7 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
 		$jsonArtistTopAlbums = $curl->execute();
 			
     	foreach($jsonArtistTopAlbums['topalbums']['album'] as $position => $jsonArtistTopAlbums){
-    		$album = new Application_Model_Album();
+    		$album = new Album();
     		$album->setPosition(++$position);
     		$album->setName($jsonArtistTopAlbums['name']);
     		$album->setPlaycount($jsonArtistTopAlbums['playcount']);
@@ -57,8 +66,8 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
         return $topAlbums;
 	}
 	
-	public function getTopSongsByArtist(Application_Model_Artist $artist){
-		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
+	public function getTopSongsByArtist(Artist $artist){
+		$curl = new CurlAdapter(new Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('artist.getTopTracks')
@@ -67,7 +76,7 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
 		$jsonArtistTopSongs = $curl->execute();
 
     	foreach($jsonArtistTopSongs['toptracks']['track'] as $position => $jsonArtistTopSongs){
-    		$song = new Application_Model_Song();
+    		$song = new Song();
     		$song->setPosition(++$position);
     		$song->setName($jsonArtistTopSongs['name']);
     		$song->setListeners($jsonArtistTopSongs['listeners']);
@@ -87,7 +96,7 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
 	
 	public function getTopArtists(){
     	$topArtists = array();
-		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
+		$curl = new CurlAdapter(new Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
 			->method('chart.getTopArtists')
@@ -95,7 +104,7 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
     	$jsonArtists = $curl->execute();
 			
     	foreach($jsonArtists['artists']['artist'] as $position => $jsonArtist){
-    		$artist = new Application_Model_Artist();
+    		$artist = new Artist();
     		$artist->setName($jsonArtist['name']);
     		$artist->setPosition(++$position);
     		$artist->setListeners($jsonArtist['listeners']);
@@ -114,7 +123,7 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
 
 	public function getTopSongs(){
     	$topSongs = array();
-		$curl = new Resources_Http_CurlAdapter(new Resources_Url_Builder($this->config->get('url')));
+		$curl = new CurlAdapter(new Builder($this->config->get('url')));
 		$curl->getBuilder()->format($this->config->get('format'))
 			->api_key($this->config->get('apiKey')) 
     		->method('chart.getTopTracks')
@@ -122,9 +131,9 @@ class Resources_Webservices_LastFM implements Application_Model_Artist_Interface
     	$jsonSongs = $curl->execute();
 
     	foreach($jsonSongs['tracks']['track'] as $position => $jsonSong){
-    		$song = new Application_Model_Song();
+    		$song = new Song();
     		$song->setName($jsonSong['name']);
-    		$artist = new Application_Model_Artist();
+    		$artist = new Artist();
     		$artist->setName($jsonSong['artist']['name']);
     		$song->setArtist($artist);
     		$song->setPosition(++$position);

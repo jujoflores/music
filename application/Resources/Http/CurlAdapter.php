@@ -1,5 +1,8 @@
 <?php
-class Resources_Http_CurlAdapter extends Zend_Http_Client{ 
+namespace Resources\Http;
+use Resources\Url\Builder;
+
+class CurlAdapter extends \Zend_Http_Client{ 
 
 	private $builder;
 	
@@ -12,12 +15,12 @@ class Resources_Http_CurlAdapter extends Zend_Http_Client{
 	
 	private function formatResponse($response){
 		if($this->isFormat('json')){
-			return Zend_Json_Decoder::decode($response);	
+			return \Zend_Json_Decoder::decode($response);	
 		}
 		return $response;
 	}
 	
-	public function __construct(Resources_Url_Builder $builder){
+	public function __construct(Builder $builder){
 		$config = array(
 			'adapter' => 'Zend_Http_Client_Adapter_Curl',
     		'curloptions' => array(CURLOPT_RETURNTRANSFER => true));

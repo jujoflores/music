@@ -1,24 +1,27 @@
 <?php
-class Application_Model_Artist_Repository implements Application_Model_Artist_Interface{
+namespace Application\Model\Artist;
+use Application\Model\Artist as ArtistModel;
+
+class Repository implements IArtist{
 	
 	private $dataSource;
 	
 	function __construct(){
 	}
 	
-	public function setDataSource(Application_Model_Artist_Interface $datasource){
+	public function setDataSource(IArtist $datasource){
 		$this->dataSource = $datasource;
 	}
 	
-	public function getInformationByArtist(Application_Model_Artist $artist){
+	public function getInformationByArtist(ArtistModel $artist){
 		return $this->dataSource->getInformationByArtist($artist);
 	}
 	
-	public function getTopAlbumsByArtist(Application_Model_Artist $artist){
+	public function getTopAlbumsByArtist(ArtistModel $artist){
 		return $this->dataSource->getTopAlbumsByArtist($artist);
 	}
 	
-	public function getTopSongsByArtist(Application_Model_Artist $artist){
+	public function getTopSongsByArtist(ArtistModel $artist){
 		return $this->dataSource->getTopSongsByArtist($artist);
 	}
 	

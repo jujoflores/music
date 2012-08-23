@@ -1,4 +1,8 @@
 <?php
+use Application\Model\Artist;
+use Application\Model\Artist\Repository as ArtistRepository;
+use Application\Model\Song\Repository as SongRepository;
+use Resources\Webservices\LastFM as Datasource;
 
 class IndexController extends Zend_Controller_Action
 {
@@ -11,16 +15,14 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-		$configlastFM = $this->webserviceConfig->lastfm->merge(Zend_Registry::get('defaultImages'));
-    	$configlastFM->setReadOnly();
+		$config = $this->webserviceConfig->lastfm->merge(Zend_Registry::get('defaultImages'));
+    	$config->setReadOnly();
 
-        $artistRepository = new Application_Model_Artist_Repository();
-        $artistRepository->setDataSource(
-        	new Resources_Webservices_LastFM($configlastFM));
+        $artistRepository = new ArtistRepository();
+        $artistRepository->setDataSource(new Datasource($config));
 
-        $songRepository = new Application_Model_Song_Repository();
-        $songRepository->setDataSource(
-        	new Resources_Webservices_LastFM($configlastFM));
+        $songRepository = new SongRepository();
+        $songRepository->setDataSource(new Datasource($config));
 
         $this->view->topArtists = $artistRepository->getTopArtists();
         $this->view->topSongs = $songRepository->getTopSongs();

@@ -1,6 +1,9 @@
 <?php
+use Application\Model\Artist;
+use Application\Model\Artist\Repository;
+use Resources\Webservices\LastFM as Datasource;
 
-class ArtistController extends Zend_Controller_Action
+class ArtistController extends \Zend_Controller_Action
 {
 	private $webserviceConfig;
 	
@@ -12,20 +15,19 @@ class ArtistController extends Zend_Controller_Action
     public function indexAction()
     {
     }
-    
+
     public function infoAction(){
     	$request = $this->getRequest();
     	$name = $request->getParam('name');
 
-    	$configlastFM = $this->webserviceConfig->lastfm->merge(Zend_Registry::get('defaultImages'));
-    	$configlastFM->setReadOnly();
+    	$config = $this->webserviceConfig->lastfm->merge(Zend_Registry::get('defaultImages'));
+    	$config->setReadOnly();
 
-        $artist = new Application_Model_Artist();
+        $artist = new Artist();
         $artist->setName($name);
 
-    	$repository = new Application_Model_Artist_Repository();
-        $repository->setDataSource(
-        	new Resources_Webservices_LastFM($configlastFM));
+    	$repository = new Repository();
+        $repository->setDataSource(new Datasource($config));
 
     	$this->view->artist = $repository->getInformationByArtist($artist);
     	$this->view->topAlbums = $repository->getTopAlbumsByArtist($artist);

@@ -1,5 +1,7 @@
 <?php
-class Application_Model_Artist {
+namespace Application\Model;
+
+class Artist {
 	
 	private $position;
 	private $name;

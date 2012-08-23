@@ -1,12 +1,14 @@
 <?php
-class Application_Model_Song_Repository implements Application_Model_Song_Interface{
+namespace Application\Model\Song;
+
+class Repository implements ISong{
 	
 	private $dataSource;
 	
 	function __construct(){
 	}
 
-	public function setDataSource(Application_Model_Song_Interface $datasource){
+	public function setDataSource(ISong $datasource){
 		$this->dataSource = $datasource;
 	}
 
