@@ -1,8 +1,8 @@
 <?php
-namespace Application\Model\Artist;
+namespace Resources\DataSource;
 use Application\Model\Artist as ArtistModel;
 
-interface IArtist{
+interface Artist{
 
 	public function getInformationByArtist(ArtistModel $artist);
 	

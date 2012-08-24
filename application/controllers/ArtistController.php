@@ -1,7 +1,7 @@
 <?php
 use Application\Model\Artist;
 use Application\Model\Artist\Repository;
-use Resources\Webservices\LastFM as Datasource;
+use Resources\DataSource\Webservices\LastFM as DataSource;
 
 class ArtistController extends \Zend_Controller_Action
 {
@@ -27,7 +27,7 @@ class ArtistController extends \Zend_Controller_Action
         $artist->setName($name);
 
     	$repository = new Repository();
-        $repository->setDataSource(new Datasource($config));
+        $repository->setDataSource(new DataSource($config));
 
     	$this->view->artist = $repository->getInformationByArtist($artist);
     	$this->view->topAlbums = $repository->getTopAlbumsByArtist($artist);

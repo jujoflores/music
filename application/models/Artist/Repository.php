@@ -1,15 +1,16 @@
 <?php
 namespace Application\Model\Artist;
 use Application\Model\Artist as ArtistModel;
+use Resources\DataSource\Artist as ArtistDataSource;
 
-class Repository implements IArtist{
+class Repository implements ArtistDataSource {
 	
 	private $dataSource;
 	
 	function __construct(){
 	}
 	
-	public function setDataSource(IArtist $datasource){
+	public function setDataSource(ArtistDataSource $datasource){
 		$this->dataSource = $datasource;
 	}
 	

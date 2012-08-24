@@ -1,14 +1,14 @@
 <?php
-namespace Resources\Webservices;
+namespace Resources\DataSource\Webservices;
 use Application\Model\Album;
 use Application\Model\Artist;
-use Application\Model\Artist\IArtist;
 use Application\Model\Song;
-use Application\Model\Song\ISong;
+use Resources\DataSource\Artist as ArtistDataSource;
+use Resources\DataSource\Song as SongDataSource;
 use Resources\Http\CurlAdapter;
 use Resources\Url\Builder;
 
-class LastFM implements IArtist, ISong {
+class LastFM implements ArtistDataSource, SongDataSource {
 
 	private $config;
 	private $baseUrl;

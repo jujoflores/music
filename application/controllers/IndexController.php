@@ -2,7 +2,7 @@
 use Application\Model\Artist;
 use Application\Model\Artist\Repository as ArtistRepository;
 use Application\Model\Song\Repository as SongRepository;
-use Resources\Webservices\LastFM as Datasource;
+use Resources\DataSource\Webservices\LastFM as DataSource;
 
 class IndexController extends Zend_Controller_Action
 {
@@ -19,10 +19,10 @@ class IndexController extends Zend_Controller_Action
     	$config->setReadOnly();
 
         $artistRepository = new ArtistRepository();
-        $artistRepository->setDataSource(new Datasource($config));
+        $artistRepository->setDataSource(new DataSource($config));
 
         $songRepository = new SongRepository();
-        $songRepository->setDataSource(new Datasource($config));
+        $songRepository->setDataSource(new DataSource($config));
 
         $this->view->topArtists = $artistRepository->getTopArtists();
         $this->view->topSongs = $songRepository->getTopSongs();
