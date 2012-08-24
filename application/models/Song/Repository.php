@@ -1,15 +1,15 @@
 <?php
 namespace Application\Model\Song;
-use Resources\DataSource\Song as SongDataSource;
+use Resources\DataSource\Song as DataSource;
 
-class Repository implements SongDataSource {
+class Repository implements DataSource {
 	
 	private $dataSource;
 	
 	function __construct(){
 	}
 
-	public function setDataSource(SongDataSource $datasource){
+	public function setDataSource(DataSource $datasource){
 		$this->dataSource = $datasource;
 	}
 

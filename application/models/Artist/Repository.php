@@ -1,28 +1,28 @@
 <?php
 namespace Application\Model\Artist;
-use Application\Model\Artist as ArtistModel;
-use Resources\DataSource\Artist as ArtistDataSource;
+use Application\Model\Artist;
+use Resources\DataSource\Artist as DataSource;
 
-class Repository implements ArtistDataSource {
+class Repository implements DataSource {
 	
 	private $dataSource;
 	
 	function __construct(){
 	}
 	
-	public function setDataSource(ArtistDataSource $datasource){
+	public function setDataSource(DataSource $datasource){
 		$this->dataSource = $datasource;
 	}
 	
-	public function getInformationByArtist(ArtistModel $artist){
+	public function getInformationByArtist(Artist $artist){
 		return $this->dataSource->getInformationByArtist($artist);
 	}
 	
-	public function getTopAlbumsByArtist(ArtistModel $artist){
+	public function getTopAlbumsByArtist(Artist $artist){
 		return $this->dataSource->getTopAlbumsByArtist($artist);
 	}
 	
-	public function getTopSongsByArtist(ArtistModel $artist){
+	public function getTopSongsByArtist(Artist $artist){
 		return $this->dataSource->getTopSongsByArtist($artist);
 	}
 	
