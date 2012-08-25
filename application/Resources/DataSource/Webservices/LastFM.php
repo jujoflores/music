@@ -3,12 +3,11 @@ namespace Resources\DataSource\Webservices;
 use Application\Model\Album;
 use Application\Model\Artist;
 use Application\Model\Song;
-use Resources\DataSource\Artist as ArtistDataSource;
-use Resources\DataSource\Song as SongDataSource;
+use Resources\DataSource\Artist as ArtistRepository;
 use Resources\Http\CurlAdapter;
 use Resources\Url\Builder;
 
-class LastFM implements ArtistDataSource, SongDataSource {
+class LastFM implements ArtistRepository {
 
 	private $config;
 	private $baseUrl;
