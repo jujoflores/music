@@ -3,7 +3,7 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap{
 
 	protected function _initConfig(){
-		$webserviceConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'webservices', 
+		$webserviceConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'webservices',
 			array('allowModifications'=>true));
 		$defaultImagesConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', 'defaultImages');
 		Zend_Registry::set('webserviceConfig', $webserviceConfig);
